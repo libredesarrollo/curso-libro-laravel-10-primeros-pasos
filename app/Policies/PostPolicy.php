@@ -16,14 +16,14 @@ class PostPolicy
     //     //
     // }
 
-    // public function before(User $user, string $ability): bool|null
-    // {
+    public function before(User $user, string $ability): bool|null
+    {
 
-    //     if ($user->isAdmin()) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+        if ($user->accessDashboard()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Determine whether the user can view the model.

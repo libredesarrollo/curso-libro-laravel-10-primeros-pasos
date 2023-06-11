@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 
 use App\Models\Post;
 use App\Policies\PostPolicy;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         Gate::define('update-post', function ($user, $post) {
             return $user->id == $post->user_id;
+        });
+
+        Gate::define('update-view-user-admin', function ($user, $userEdit, $permissionName) {
+            return ($user->hasRole('Admin') || !$userEdit->hasRole('Admin')) && $user->hasPermissionTo($permissionName);
+        });
+
+        Gate::define('is-admin', function ($user) {
+            return $user->hasRole('Admin');
         });
     }
 }

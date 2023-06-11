@@ -20,6 +20,13 @@ class PostController extends Controller
      */
     public function index(): View
     {
+
+        // dd(User::find(2)->hasExactRoles(['Editor', 'Admin']));
+
+        if(!Auth::user()->hasPermissionTo('editor.post.index') /*Auth::user()->hasRole('Editor')*/){
+            return abort(403);
+        }
+
         $posts = Post::paginate(2); // personaliza la paginacion como quieras
         if (!Gate::allows('index', $posts[0])) {
             abort(403);
@@ -34,6 +41,10 @@ class PostController extends Controller
     {
         $categories = Category::pluck('id', 'title');
         $post = new Post();
+
+        if(!Auth::user()->hasPermissionTo('editor.post.create')){
+            return abort(403);
+        }
 
         if (!Gate::allows('create', $post)) {
             abort(403);
@@ -52,6 +63,10 @@ class PostController extends Controller
         $post = new Post($request->validated());
         //$post = Post::create($request->all());
 
+        if(!Auth::user()->hasPermissionTo('editor.post.create')){
+            return abort(403);
+        }
+
         if (!Gate::allows('create', $post)) {
             abort(403);
         }
@@ -66,6 +81,10 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
+
+        if(!Auth::user()->hasPermissionTo('editor.post.index')){
+            return abort(403);
+        }
 
         // TEST
         // if (Gate::any(['update', 'view'], $post)) {
@@ -95,7 +114,7 @@ class PostController extends Controller
         //     !$user->isAdmin()
         // );
 
-       //  Gate::authorize('create', $post);
+        //  Gate::authorize('create', $post);
 
         // TEST
 
@@ -117,6 +136,10 @@ class PostController extends Controller
 
         //dd(Gate::inspect('update', $post));
 
+        if(!Auth::user()->hasPermissionTo('editor.post.update')){
+            return abort(403);
+        }
+
         if (!Gate::allows('update', $post)) {
             abort(403);
         }
@@ -130,6 +153,11 @@ class PostController extends Controller
      */
     public function update(PutRequest $request, Post $post): RedirectResponse
     {
+
+        if(!Auth::user()->hasPermissionTo('editor.post.update')){
+            return abort(403);
+        }
+
         if (!Gate::allows('update-post', $post)) {
             abort(403);
         }
@@ -151,6 +179,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post): RedirectResponse
     {
+
+        if(!Auth::user()->hasPermissionTo('editor.post.destroy')){
+            return abort(403);
+        }
+
         if (!Gate::allows('delete', $post)) {
             abort(403);
         }

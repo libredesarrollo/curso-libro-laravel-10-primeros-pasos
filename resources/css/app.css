@@ -7,8 +7,10 @@
 h1{
     @apply text-4xl mb-3
 }
+h3{
+    @apply text-lg mb-3
+}
 /* ******************** base */
-
 
 /* ******************** tabla basica */
 .table {
@@ -41,6 +43,9 @@ label {
 .btn {
     @apply border rounded px-3 py-2 text-white font-bold inline-block transition-all
 }
+.btn-sm {
+    @apply border rounded p-1 text-white font-bold inline-block transition-all
+}
 .btn-danger{
     @apply bg-red-600 hover:bg-red-800 border-red-600
 }
@@ -61,5 +66,8 @@ label {
 }
 .card-white {
     @apply bg-white
+}
+.card-gray {
+    @apply bg-gray-200
 }
 /* ******************** card */
